@@ -1,4 +1,12 @@
 document.addEventListener('DOMContentLoaded', () => {
+  // DevTools Easter Egg
+  console.log(
+    `%cprasanna %c| portfolio%c\n\nKeyboard Shortcuts:\n - [t] Toggle Theme\n - [e] Copy Email\n - [c] Copy NPX CLI\n - [g] Open GitHub\n - [l] Open LinkedIn\n - [p] Open prasanna19.xyz\n`,
+    "font-weight: bold; font-size: 13px; color: #ea580c;",
+    "font-size: 13px; color: #71717a;",
+    "font-family: monospace; color: inherit;"
+  );
+
   const toggleBtn = document.getElementById('theme-toggle');
   
   if (!toggleBtn) return;

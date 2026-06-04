@@ -433,14 +433,7 @@ main {
   transform: translateY(0);
 }
 
-/* Microinteractions: Logo hover state styling */
-.company-logo {
-  transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
 
-.company-block:hover .company-logo {
-  transform: scale(1.15) rotate(4deg);
-}
 
 /* Microinteractions: Hover zoom feedback on the theme toggle */
 #theme-toggle {
@@ -645,6 +638,20 @@ main {
 .toast.show {
   opacity: 1;
   transform: translateY(0) scale(1);
+}
+
+/* Reading Status styles */
+.reading-status {
+  font-size: 0.75rem;
+  font-family: var(--font-mono);
+  color: var(--text-muted);
+  margin-bottom: 0.5rem;
+  cursor: default;
+}
+
+.book-title {
+  color: var(--text);
+  font-style: italic;
 }
 
 
