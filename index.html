@@ -14,10 +14,10 @@
   <script>
     (function() {
       const storedTheme = localStorage.getItem('theme');
-      if (storedTheme) {
-        document.documentElement.setAttribute('data-theme', storedTheme);
-      } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      if (storedTheme === 'dark') {
         document.documentElement.setAttribute('data-theme', 'dark');
+      } else {
+        document.documentElement.setAttribute('data-theme', 'light');
       }
     })();
   </script>
@@ -140,7 +140,7 @@
       <ul class="logs-list">
         <li class="log-item">
           <span class="log-date">Jun 2026</span>
-          <span class="log-text">Compiling custom CUDA kernels to accelerate local deepseek-r1 reasoning on myTV stream controller.</span>
+          <span class="log-text">Optimizing myTV's media range-request engine to support instantaneous, zero-buffer video scrubbing.</span>
         </li>
         <li class="log-item">
           <span class="log-date">May 2026</span>

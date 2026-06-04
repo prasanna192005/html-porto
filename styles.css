@@ -23,15 +23,7 @@
   --code-bg: #27272a;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --bg: #09090b;
-    --text: #f4f4f5;
-    --text-muted: #a1a1aa;
-    --border: rgba(255, 255, 255, 0.08);
-    --code-bg: #27272a;
-  }
-}
+
 
 /* CSS Reset & Base */
 *, *::before, *::after {
@@ -43,6 +35,27 @@
 html {
   font-size: 14px;
   scroll-behavior: smooth;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) var(--bg);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
 }
 
 body {

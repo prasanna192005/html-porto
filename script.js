@@ -14,8 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Retrieve current applied theme state
   function getActiveTheme() {
     const attrTheme = document.documentElement.getAttribute('data-theme');
-    if (attrTheme) return attrTheme;
-    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    return attrTheme || 'light';
   }
 
   // Update button text to show what theme you switch to
@@ -30,21 +29,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Toggle theme click listener
   toggleBtn.addEventListener('click', () => {
-    const active = document.documentElement.getAttribute('data-theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    const active = document.documentElement.getAttribute('data-theme') || 'light';
     const nextTheme = active === 'dark' ? 'light' : 'dark';
     
     document.documentElement.setAttribute('data-theme', nextTheme);
     localStorage.setItem('theme', nextTheme);
     updateToggleText(nextTheme);
     showToast(`Theme: ${nextTheme === 'dark' ? 'Dark' : 'Light'} Mode`);
-  });
-
-  // Keep preference matching system if user has not explicitly clicked it
-  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
-    if (!localStorage.getItem('theme')) {
-      const nextTheme = e.matches ? 'dark' : 'light';
-      updateToggleText(nextTheme);
-    }
   });
 
   // Dynamic Scroll Progress Bar
