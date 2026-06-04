@@ -26,10 +26,14 @@
 
   <main>
     <!-- Header Section -->
-    <header class="header animate-in">
+    <header class="header animate-in" id="home">
       <div class="header-info">
         <h1 class="name">prasanna</h1>
-        <p class="role">Software Engineer</p>
+        <div class="role-wrapper">
+          <span class="role">Software Engineer</span>
+          <span class="bullet-separator">&bull;</span>
+          <span class="local-time" id="local-clock">00:00:00 IST</span>
+        </div>
         <nav class="links">
           <a href="mailto:prasannapandharikar19@gmail.com" class="link" id="email-link"><svg class="icon icon-email" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"></rect><polyline points="22,6 12,13 2,6" class="email-flap"></polyline></svg>Email</a>
           <a href="https://github.com/prasanna192005" target="_blank" rel="noopener noreferrer" class="link"><svg class="icon icon-github" viewBox="0 0 24 24" width="13" height="13" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>GitHub</a>
@@ -54,49 +58,32 @@
     </section>
 
     <!-- Skills Section -->
-    <section class="section animate-in">
+    <section class="section animate-in" id="expertise">
       <h2 class="section-title">Technical Expertise</h2>
-      <div class="skills-wrapper">
-        
-        <div>
-          <h3 class="skills-category-title">Languages</h3>
-          <div class="skills-list">
-            <span class="skill-tag">TypeScript</span>
-            <span class="skill-tag">JavaScript</span>
-            <span class="skill-tag">Rust</span>
-            <span class="skill-tag">Go</span>
-            <span class="skill-tag">Python</span>
-            <span class="skill-tag">SQL</span>
-          </div>
-        </div>
-
-        <div>
-          <h3 class="skills-category-title">Frameworks</h3>
-          <div class="skills-list">
-            <span class="skill-tag">React</span>
-            <span class="skill-tag">Next.js</span>
-            <span class="skill-tag">Node.js</span>
-            <span class="skill-tag">Express</span>
-            <span class="skill-tag">Tailwind CSS</span>
-          </div>
-        </div>
-
-        <div>
-          <h3 class="skills-category-title">Infrastructure</h3>
-          <div class="skills-list">
-            <span class="skill-tag">Docker</span>
-            <span class="skill-tag">Firebase</span>
-            <span class="skill-tag">PostgreSQL</span>
-            <span class="skill-tag">AWS</span>
-            <span class="skill-tag">WebSockets</span>
-          </div>
-        </div>
-
+      <div class="skills-list">
+        <span class="skill-tag">C &amp; C++</span>
+        <span class="skill-tag">Python &amp; Java</span>
+        <span class="skill-tag">TypeScript / JavaScript</span>
+        <span class="skill-tag">Node.js &amp; Express</span>
+        <span class="skill-tag">Next.js / React</span>
+        <span class="skill-tag">HTML &amp; Vanilla CSS</span>
+        <span class="skill-tag">TailwindCSS</span>
+        <span class="skill-tag">Machine Learning &amp; AI</span>
+        <span class="skill-tag">LLMs &amp; GenAI Engineering</span>
+        <span class="skill-tag">PostgreSQL &amp; MongoDB</span>
+        <span class="skill-tag">Docker &amp; Kubernetes</span>
+        <span class="skill-tag">AWS &amp; Cloudflare</span>
+        <span class="skill-tag">Vercel Edge &amp; Serverless</span>
+        <span class="skill-tag">Prometheus, Grafana, Loki, Tempo</span>
+        <span class="skill-tag">CI/CD Pipelines</span>
+        <span class="skill-tag">RESTful APIs &amp; GraphQL</span>
+        <span class="skill-tag">Git</span>
+        <span class="skill-tag">Terminal Sorcery</span>
       </div>
     </section>
 
     <!-- Selected Projects -->
-    <section class="section animate-in">
+    <section class="section animate-in" id="projects">
       <h2 class="section-title">Selected Projects</h2>
       <ul class="list">
         
@@ -148,7 +135,7 @@
     </section>
 
     <!-- Thought Stream Section -->
-    <section class="section animate-in">
+    <section class="section animate-in" id="logs">
       <h2 class="section-title">Thought Stream</h2>
       <ul class="logs-list">
         <li class="log-item">
@@ -167,7 +154,7 @@
     </section>
 
     <!-- Experience Section -->
-    <section class="section animate-in">
+    <section class="section animate-in" id="experience">
       <h2 class="section-title">Experience</h2>
       
       <!-- Company Block: edept -->

@@ -169,4 +169,23 @@ document.addEventListener('DOMContentLoaded', () => {
         break;
     }
   });
+
+  // Live IST Clock
+  function updateClock() {
+    const clockEl = document.getElementById('local-clock');
+    if (!clockEl) return;
+    
+    const now = new Date();
+    const options = {
+      timeZone: 'Asia/Kolkata',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      hour12: false
+    };
+    const timeStr = now.toLocaleTimeString('en-US', options);
+    clockEl.textContent = `${timeStr} IST`;
+  }
+  setInterval(updateClock, 1000);
+  updateClock();
 });
