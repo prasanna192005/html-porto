@@ -24,3 +24,4 @@ An ultra-clean, space-optimized, typography-first developer portfolio. Built usi
 - <kbd>g</kbd> — Open GitHub page.
 - <kbd>l</kbd> — Open LinkedIn profile.
 - <kbd>p</kbd> — Navigate to main website (`prasanna19.xyz`).
+- <kbd>k</kbd> — Expand/collapse Bug Runner (dino-style typographic game).

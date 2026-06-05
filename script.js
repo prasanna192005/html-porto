@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
   // DevTools Easter Egg
   console.log(
-    `%cprasanna %c| portfolio%c\n\nKeyboard Shortcuts:\n - [t] Toggle Theme\n - [e] Copy Email\n - [c] Copy NPX CLI\n - [g] Open GitHub\n - [l] Open LinkedIn\n - [p] Open prasanna19.xyz\n`,
+    `%cprasanna %c| portfolio%c\n\nKeyboard Shortcuts:\n - [t] Toggle Theme\n - [e] Copy Email\n - [c] Copy NPX CLI\n - [g] Open GitHub\n - [l] Open LinkedIn\n - [p] Open prasanna19.xyz\n - [k] Play Game\n`,
     "font-weight: bold; font-size: 13px; color: #ea580c;",
     "font-size: 13px; color: #71717a;",
     "font-family: monospace; color: inherit;"
@@ -137,6 +137,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Keyboard Shortcuts handler
+  // Keyboard Shortcuts handler
   window.addEventListener('keydown', (e) => {
     // Avoid triggering shortcuts if user is typing in form inputs (if any are added later)
     if (['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName)) {
@@ -166,6 +167,20 @@ document.addEventListener('DOMContentLoaded', () => {
         showToast("Opening prasanna19.xyz...");
         window.open('https://www.prasanna19.xyz', '_blank');
         break;
+      case 'k':
+        const gamePanel = document.getElementById('game-panel');
+        if (gamePanel) {
+          if (gamePanel.style.display === 'none') {
+            gamePanel.style.display = 'flex';
+            gamePanel.scrollIntoView({ behavior: 'smooth' });
+            showToast("Bug Runner activated! Press Space to jump.");
+            if (typeof resetDinoGame === 'function') resetDinoGame();
+          } else {
+            gamePanel.style.display = 'none';
+            if (typeof stopDinoGame === 'function') stopDinoGame();
+          }
+        }
+        break;
     }
   });
 
@@ -187,4 +202,262 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   setInterval(updateClock, 1000);
   updateClock();
+
+  // Dino Game logic (Bug Runner) - Reused for Flappy Developer
+  let resetDinoGame = null;
+  let stopDinoGame = null;
+
+  (function() {
+    const gamePanel = document.getElementById('game-panel');
+    const canvas = document.getElementById('game-canvas');
+    const scoreVal = document.getElementById('current-score');
+    const highScoreVal = document.getElementById('high-score');
+    
+    if (!canvas) return;
+    
+    const ctx = canvas.getContext('2d');
+    let isPlaying = false;
+    let score = 0;
+    let highScore = localStorage.getItem('flappy-high-score') || 0;
+    highScoreVal.textContent = highScore;
+
+    // Physics constants
+    const gravity = 0.25;
+    const flapForce = -4.5;
+    
+    // Player
+    const player = {
+      x: 80,
+      y: 60,
+      vy: 0,
+      width: 18,
+      height: 14,
+      draw(wingUp) {
+        ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--text').trim() || '#18181b';
+        // Draw body (pixelated bird or ship)
+        ctx.fillRect(this.x, this.y, this.width, this.height);
+        
+        // Eye
+        ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--bg').trim() || '#ffffff';
+        ctx.fillRect(this.x + 11, this.y + 3, 3, 3);
+        
+        // Flapping Wing
+        ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--text-muted').trim() || '#71717a';
+        if (wingUp) {
+          ctx.fillRect(this.x + 3, this.y - 3, 5, 5);
+        } else {
+          ctx.fillRect(this.x + 3, this.y + 11, 5, 5);
+        }
+      }
+    };
+
+    const pipes = [];
+    const pipeWidth = 25;
+    const pipeGap = 65;
+    let spawnTimer = 0;
+    let gameSpeed = 2.5;
+    let animationFrameId = null;
+    let wingTimer = 0;
+    let wingUp = false;
+
+    function resetGame() {
+      score = 0;
+      scoreVal.textContent = '0';
+      pipes.length = 0;
+      player.y = 60;
+      player.vy = 0;
+      gameSpeed = 2.5;
+      spawnTimer = 0;
+      wingTimer = 0;
+    }
+
+    resetDinoGame = function() {
+      isPlaying = false;
+      if (animationFrameId) cancelAnimationFrame(animationFrameId);
+      resetGame();
+      drawStartScreen();
+    };
+
+    stopDinoGame = function() {
+      isPlaying = false;
+      if (animationFrameId) cancelAnimationFrame(animationFrameId);
+    };
+
+    function flap() {
+      player.vy = flapForce;
+      wingUp = !wingUp;
+    }
+
+    function spawnPipe() {
+      const minHeight = 20;
+      const maxHeight = 140 - pipeGap - minHeight;
+      const topHeight = Math.floor(Math.random() * (maxHeight - minHeight + 1)) + minHeight;
+      pipes.push({
+        x: canvas.width,
+        topHeight: topHeight,
+        bottomY: topHeight + pipeGap,
+        passed: false
+      });
+    }
+
+    function gameLoop() {
+      if (!isPlaying) return;
+
+      // Clear Canvas
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Draw Ground Line
+      ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--border').trim() || 'rgba(0, 0, 0, 0.08)';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(0, 140);
+      ctx.lineTo(canvas.width, 140);
+      ctx.stroke();
+
+      // Player Physics
+      player.vy += gravity;
+      player.y += player.vy;
+
+      // Wing animation
+      wingTimer++;
+      if (wingTimer > 12) {
+        wingUp = !wingUp;
+        wingTimer = 0;
+      }
+
+      // Check boundary collisions
+      if (player.y < 0) {
+        player.y = 0;
+        player.vy = 0;
+      }
+      if (player.y + player.height > 140) {
+        gameOver();
+        return;
+      }
+
+      player.draw(wingUp);
+
+      // Spawn pipes
+      spawnTimer++;
+      if (spawnTimer > 90) {
+        spawnPipe();
+        spawnTimer = 0;
+      }
+
+      // Move & Draw Pipes
+      for (let i = pipes.length - 1; i >= 0; i--) {
+        const pipe = pipes[i];
+        pipe.x -= gameSpeed;
+
+        ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--text-muted').trim() || '#71717a';
+        ctx.font = '14px "SFMono-Regular", Consolas, Menlo, monospace';
+
+        // Draw top pipe: column of opening curly braces
+        let topY = pipe.topHeight - 6;
+        while (topY > -15) {
+          ctx.fillText('{', pipe.x + 8, topY);
+          topY -= 15;
+        }
+
+        // Draw bottom pipe: column of closing curly braces
+        let bottomY = pipe.bottomY + 12;
+        while (bottomY < 155) {
+          ctx.fillText('}', pipe.x + 8, bottomY);
+          bottomY += 15;
+        }
+
+        // Collision detection
+        const pLeft = player.x;
+        const pRight = player.x + player.width;
+        const pTop = player.y;
+        const pBottom = player.y + player.height;
+
+        const pipeLeft = pipe.x;
+        const pipeRight = pipe.x + pipeWidth;
+
+        if (pRight > pipeLeft + 2 && pLeft < pipeRight - 2) {
+          if (pTop < pipe.topHeight || pBottom > pipe.bottomY) {
+            gameOver();
+            return;
+          }
+        }
+
+        // Score tracker
+        if (!pipe.passed && pipeRight < player.x) {
+          pipe.passed = true;
+          score += 1;
+          scoreVal.textContent = score;
+          // Increase speed slightly
+          if (score % 5 === 0) {
+            gameSpeed += 0.2;
+          }
+        }
+
+        // Remove offscreen pipes
+        if (pipe.x + pipeWidth < 0) {
+          pipes.splice(i, 1);
+        }
+      }
+
+      animationFrameId = requestAnimationFrame(gameLoop);
+    }
+
+    function gameOver() {
+      isPlaying = false;
+      showToast(`Game Over! Score: ${score}`);
+      if (score > highScore) {
+        highScore = score;
+        localStorage.setItem('flappy-high-score', highScore);
+        highScoreVal.textContent = highScore;
+        showToast("New High Score!");
+      }
+      drawStartScreen("GAME OVER. Press Space to restart.");
+    }
+
+    function drawStartScreen(msg = "Press Space or Click to Flap") {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      
+      // Draw ground
+      ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--border').trim() || 'rgba(0, 0, 0, 0.08)';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(0, 140);
+      ctx.lineTo(canvas.width, 140);
+      ctx.stroke();
+
+      // Draw player sitting
+      player.draw(false);
+
+      ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--text-muted').trim() || '#71717a';
+      ctx.font = '13px "SFMono-Regular", Consolas, Menlo, monospace';
+      ctx.textAlign = 'center';
+      ctx.fillText(msg, canvas.width / 2, 70);
+      ctx.textAlign = 'start'; // restore default
+    }
+
+    // Controls
+    window.addEventListener('keydown', (e) => {
+      if (e.code === 'Space' && gamePanel.style.display !== 'none') {
+        e.preventDefault();
+        
+        if (!isPlaying) {
+          resetGame();
+          isPlaying = true;
+          animationFrameId = requestAnimationFrame(gameLoop);
+        }
+        flap();
+      }
+    });
+
+    canvas.addEventListener('click', () => {
+      if (!isPlaying) {
+        resetGame();
+        isPlaying = true;
+        animationFrameId = requestAnimationFrame(gameLoop);
+      }
+      flap();
+    });
+
+    drawStartScreen();
+  })();
 });
