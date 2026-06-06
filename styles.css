@@ -134,6 +134,14 @@ main {
   color: var(--text-muted);
 }
 
+.bio-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
 .cli-command {
   display: inline-flex;
   align-items: center;
@@ -145,7 +153,6 @@ main {
   font-size: 0.75rem;
   color: var(--text);
   gap: 0.5rem;
-  align-self: flex-start;
 }
 
 .copy-btn {
@@ -163,6 +170,57 @@ main {
 .copy-btn:hover {
   color: var(--text);
 }
+
+.llm-prompts {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+}
+
+.prompt-label {
+  color: var(--text-muted);
+}
+
+.llm-link {
+  display: inline-flex;
+  align-items: center;
+  color: var(--text-muted);
+  text-decoration: none;
+  border: 1px solid var(--border);
+  background-color: var(--code-bg);
+  padding: 0.35rem 0.65rem;
+  border-radius: 5px;
+  gap: 0.35rem;
+  transition: color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+
+.llm-link:hover {
+  border-color: var(--text-muted);
+  transform: translateY(-1px);
+}
+
+.llm-link .icon {
+  margin-right: 0;
+  margin-top: 0;
+}
+
+/* Icons are colorful by default */
+.icon-chatgpt {
+  color: #10a37f;
+}
+
+.icon-claude {
+  color: #cc5843;
+}
+
+.icon-gemini {
+  color: #4f46e5;
+}
+
+
 
 /* Sections */
 .section {
