@@ -136,6 +136,44 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // Microinteractions: Gemini modal and clipboard handling
+  const geminiLink = document.getElementById('gemini-link');
+  const geminiModal = document.getElementById('gemini-modal');
+  const modalCloseBtn = document.getElementById('modal-close-btn');
+  const modalGeminiBtn = document.getElementById('modal-gemini-btn');
+
+  if (geminiLink && geminiModal) {
+    geminiLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      const promptText = "Do deep research on a person, dev.prasanna19.xyz & prasanna19.xyz and tell me succinctly why I should be friends with him.";
+      navigator.clipboard.writeText(promptText).then(() => {
+        // Show modal backdrop
+        geminiModal.style.display = 'flex';
+        // Trigger transition reflow
+        setTimeout(() => {
+          geminiModal.classList.add('show');
+        }, 10);
+      });
+    });
+
+    const closeModal = () => {
+      geminiModal.classList.remove('show');
+      const transitionHandler = () => {
+        geminiModal.style.display = 'none';
+        geminiModal.removeEventListener('transitionend', transitionHandler);
+      };
+      geminiModal.addEventListener('transitionend', transitionHandler);
+    };
+
+    if (modalCloseBtn) modalCloseBtn.addEventListener('click', closeModal);
+    if (modalGeminiBtn) modalGeminiBtn.addEventListener('click', closeModal);
+
+    // Close on clicking the backdrop itself
+    geminiModal.addEventListener('click', (e) => {
+      if (e.target === geminiModal) closeModal();
+    });
+  }
+
   // Keyboard Shortcuts handler
   // Keyboard Shortcuts handler
   window.addEventListener('keydown', (e) => {
