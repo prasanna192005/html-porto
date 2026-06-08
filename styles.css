@@ -79,6 +79,8 @@ main {
 
 /* Header Section */
 .header {
+  position: relative;
+  z-index: 1001;
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
@@ -521,6 +523,110 @@ main {
   transform: scale(0.95);
 }
 
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.help-btn {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: bold;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: color 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
+  padding: 0;
+  line-height: 1;
+}
+
+.help-btn:hover {
+  color: var(--text);
+  border-color: var(--text-muted);
+  background-color: var(--code-bg);
+}
+
+.shortcuts-help-wrapper {
+  position: relative;
+  display: flex;
+}
+
+.shortcuts-tooltip {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  width: 160px;
+  background-color: var(--bg); /* Solid opaque background color matching the theme */
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0.6rem 0.75rem;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08), 0 3px 6px rgba(0, 0, 0, 0.05);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(4px);
+  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
+  z-index: 10000; /* Float high above bio and main text */
+  pointer-events: none;
+}
+
+/* Show tooltip on hover or when triggered on tap */
+.shortcuts-help-wrapper:hover .shortcuts-tooltip,
+.shortcuts-tooltip.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.shortcuts-tooltip h4 {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--text);
+  margin-bottom: 0.4rem;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 0.2rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.shortcuts-tooltip ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 0;
+  margin: 0;
+}
+
+.shortcuts-tooltip li {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  line-height: 1.2;
+}
+
+.shortcuts-tooltip .key {
+  margin: 0;
+  min-width: 14px;
+  height: 14px;
+  font-size: 0.55rem;
+  background-color: var(--code-bg);
+  border: 1px solid var(--border);
+  padding: 0 2px;
+  box-shadow: none;
+}
+
 /* Keyboard Shortcuts Legend styling */
 .shortcuts-legend {
   margin-top: 0.5rem;
@@ -546,6 +652,25 @@ main {
   box-shadow: 0 1px 0px var(--border);
   margin: 0 2px;
   vertical-align: middle;
+}
+
+.key[data-key] {
+  cursor: pointer;
+  transition: transform 0.15s ease, background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+  user-select: none;
+}
+
+.key[data-key]:hover {
+  background-color: var(--text);
+  color: var(--bg);
+  border-color: var(--text);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px var(--border);
+}
+
+.key[data-key]:active {
+  transform: translateY(1px);
+  box-shadow: 0 0px 1px var(--border);
 }
 
 /* Thought Stream Section styling */
@@ -729,7 +854,11 @@ main {
 .book-title {
   color: var(--text);
   font-style: italic;
+  text-decoration: underline wavy var(--text-muted);
+  text-underline-offset: 3px;
 }
+
+
 
 /* Game Section styling */
 .game-section {

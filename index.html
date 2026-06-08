@@ -41,13 +41,30 @@
           <a href="https://www.prasanna19.xyz" target="_blank" rel="noopener noreferrer" class="link"><svg class="icon icon-globe" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" class="globe-meridian"></path></svg>prasanna19.xyz</a>
         </nav>
       </div>
-      <button class="link-btn" id="theme-toggle" aria-label="Toggle theme">Dark</button>
+      <div class="header-actions">
+        <button class="link-btn" id="theme-toggle" aria-label="Toggle theme">Dark</button>
+        <div class="shortcuts-help-wrapper">
+          <button class="help-btn" id="shortcuts-help-trigger" aria-label="Show keyboard shortcuts">?</button>
+          <div class="shortcuts-tooltip">
+            <h4>Shortcuts</h4>
+            <ul>
+              <li><span class="key">t</span> Theme</li>
+              <li><span class="key">e</span> Email</li>
+              <li><span class="key">c</span> CLI command</li>
+              <li><span class="key">g</span> GitHub</li>
+              <li><span class="key">l</span> LinkedIn</li>
+              <li><span class="key">p</span> Website</li>
+              <li><span class="key">k</span> Play game</li>
+            </ul>
+          </div>
+        </div>
+      </div>
     </header>
 
     <!-- Bio / Intro -->
     <section class="bio animate-in">
       <p>
-        I focus on building distributed state machines, real-time multiplayer engines, and high-frequency telemetry systems. Currently designing scalable architectures, real-time synchronization pipelines, and AI agent integrations.
+        I focus on building distributed state machines, real-time multiplayer engines, and high-frequency telemetry systems. Currently designing scalable architectures and sync pipelines, driven by a simple desire to build software that feels tactile, fast, and alive.
       </p>
       <div class="bio-actions">
         <div class="cli-command">
@@ -237,9 +254,11 @@
     <footer class="footer animate-in">
       <p class="reading-status">Currently reading: <span class="book-title">Ret Ki Machli</span></p>
       <p>&copy; 2026 Prasanna.</p>
-      <p class="shortcuts-legend">Press <span class="key">t</span> theme &bull; <span class="key">e</span> copy email &bull; <span class="key">c</span> copy npx &bull; <span class="key">g</span> github &bull; <span class="key">l</span> linkedin &bull; <span class="key">p</span> website &bull; <span class="key">k</span> play game</p>
+      <p class="shortcuts-legend">Press / tap <span class="key" data-key="t">t</span> theme &bull; <span class="key" data-key="e">e</span> copy email &bull; <span class="key" data-key="c">c</span> copy npx &bull; <span class="key" data-key="g">g</span> github &bull; <span class="key" data-key="l">l</span> linkedin &bull; <span class="key" data-key="p">p</span> website &bull; <span class="key" data-key="k">k</span> play game</p>
     </footer>
   </main>
+
+
 
   <!-- Gemini Modal -->
   <div id="gemini-modal" class="modal-backdrop" style="display: none;">

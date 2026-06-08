@@ -174,15 +174,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Keyboard Shortcuts handler
-  // Keyboard Shortcuts handler
-  window.addEventListener('keydown', (e) => {
-    // Avoid triggering shortcuts if user is typing in form inputs (if any are added later)
-    if (['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName)) {
-      return;
-    }
-
-    const key = e.key.toLowerCase();
+  // Keyboard Shortcuts & Click Actions Handler
+  function handleShortcut(key) {
     switch (key) {
       case 't':
         if (toggleBtn) toggleBtn.click();
@@ -220,7 +213,43 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         break;
     }
+  }
+
+  // Keyboard Shortcuts handler
+  window.addEventListener('keydown', (e) => {
+    // Avoid triggering shortcuts if user is typing in form inputs (if any are added later)
+    if (['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName)) {
+      return;
+    }
+
+    const key = e.key.toLowerCase();
+    handleShortcut(key);
   });
+
+  // Tappable/Clickable key helpers (mobile-friendly fallback)
+  document.querySelectorAll('.key[data-key]').forEach(keyEl => {
+    keyEl.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const key = keyEl.getAttribute('data-key');
+      handleShortcut(key);
+    });
+  });
+
+  // Mobile/Tappable helper for shortcuts help tooltip
+  const helpTrigger = document.getElementById('shortcuts-help-trigger');
+  const tooltip = document.querySelector('.shortcuts-tooltip');
+
+  if (helpTrigger && tooltip) {
+    helpTrigger.addEventListener('click', (e) => {
+      e.stopPropagation();
+      tooltip.classList.toggle('show');
+    });
+
+    // Dismiss tooltip on clicking anywhere else on page
+    document.addEventListener('click', () => {
+      tooltip.classList.remove('show');
+    });
+  }
 
   // Live IST Clock
   function updateClock() {
