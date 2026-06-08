@@ -527,4 +527,31 @@ document.addEventListener('DOMContentLoaded', () => {
 
     drawStartScreen();
   })();
+
+  // Dynamic Tab Title Focus Helper (Developer Easter Egg)
+  let titleInterval = null;
+  const normalTitle = document.title; // Keeps the original HTML title ("Prasanna")
+
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+      if (titleInterval) clearInterval(titleInterval);
+      document.title = '[away] prasanna';
+    } else {
+      let blinkCount = 0;
+      const cursor = '█';
+      
+      if (titleInterval) clearInterval(titleInterval);
+      
+      titleInterval = setInterval(() => {
+        blinkCount++;
+        if (blinkCount > 6) {
+          clearInterval(titleInterval);
+          document.title = normalTitle;
+        } else {
+          // Toggle between cursor-prompt and space-prompt to keep tab string length identical
+          document.title = (blinkCount % 2 === 0) ? `${cursor} prasanna` : `  prasanna`;
+        }
+      }, 500);
+    }
+  });
 });
