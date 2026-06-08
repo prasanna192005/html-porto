@@ -403,6 +403,12 @@ main {
   margin-top: 0.75rem;
 }
 
+.view-more-container {
+  margin-top: 1.5rem;
+  display: flex;
+}
+
+
 /* Footer Section & Links */
 .footer {
   margin-top: 1.5rem;
